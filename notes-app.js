@@ -8,14 +8,16 @@ renderNotes(notes, filters);
 
 // Event Handlers
 document.querySelector('#add-notes').addEventListener('click', function (e) {
+	const id = uuidv4();
+
 	notes.push({
-		id: uuidv4(),
+		id: id,
 		title: '',
 		body: '',
 	});
 
 	saveNotes(notes);
-	renderNotes(notes, filters);
+	location.assign(`/edit.html#${id}`);
 });
 
 document.querySelector('#search-text').addEventListener('input', function (e) {
