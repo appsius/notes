@@ -1,21 +1,15 @@
-const notes = [
-	{
-		title: 'Learn Arabic',
-		body: 'I will take 3 years for you to master it',
-	},
-	{
-		title: 'Learn Persian',
-		body: 'I will take 2 years for you to master it',
-	},
-	{
-		title: 'Speak fluent English',
-		body: 'I will take 1 years for you to master it',
-	},
-];
+let notes = [];
 
 const filters = {
 	searchText: '',
 };
+
+// Check if there is any saved data
+const notesJSON = localStorage.getItem('notes');
+
+if (notesJSON !== null) {
+	notes = JSON.parse(notesJSON);
+}
 
 const renderNotes = function (notes, filters) {
 	const filteredNotes = notes.filter(function (note) {
@@ -28,7 +22,13 @@ const renderNotes = function (notes, filters) {
 
 	filteredNotes.forEach(function (note) {
 		const noteEl = document.createElement('p');
-		noteEl.textContent = note.title;
+
+		if (note.title.length > 0) {
+			noteEl.textContent = note.title;
+		} else {
+			noteEl.textContent = 'Unnamed biggy..';
+		}
+
 		document.querySelector('#notes').appendChild(noteEl);
 	});
 };
@@ -36,7 +36,14 @@ const renderNotes = function (notes, filters) {
 renderNotes(notes, filters);
 
 document.querySelector('#add-notes').addEventListener('click', function (e) {
-	e.target.textContent = 'Button was clicked..';
+	notes.push({
+		title: '',
+		body: '',
+	});
+
+	localStorage.setItem('notes', JSON.stringify(notes));
+
+	renderNotes(notes, filters);
 });
 
 document.querySelector('#search-text').addEventListener('input', function (e) {
