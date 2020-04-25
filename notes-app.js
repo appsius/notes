@@ -9,11 +9,14 @@ renderNotes(notes, filters);
 // Event Handlers
 document.querySelector('#add-notes').addEventListener('click', function (e) {
 	const id = uuidv4();
+	const timestamp = moment().valueOf();
 
 	notes.push({
 		id: id,
 		title: '',
 		body: '',
+		createdAt: timestamp,
+		updatedAt: timestamp,
 	});
 
 	saveNotes(notes);
